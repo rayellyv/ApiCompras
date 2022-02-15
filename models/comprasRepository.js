@@ -4,9 +4,9 @@ const conexao = require('../infraestrutura/conexao')
 
 class ComprasRepository {
     constructor(){}
-    adiciona(atendimento, res) {
+    adiciona(Compras, res) {
 
-        const clienteEhValido = atendimento.cliente.length >=5
+        const clienteEhValido = Compras.cliente.length >=5
 
         const validacoes = [
             {
@@ -16,9 +16,9 @@ class ComprasRepository {
             }
         ]  
 
-        const sql = "INSERT INTO Atendimento SET ?"
+        const sql = "INSERT INTO Compras SET ?"
 
-        conexao.query(sql, atendimento, (erro, resultados) => {
+        conexao.query(sql, Compras, (erro, resultados) => {
             if(erro) {
                 res.status(400).json(erro)
             } else {
@@ -28,7 +28,7 @@ class ComprasRepository {
     }
 
     lista(res){
-        const sql = "SELECT * FROM Atendimento"
+        const sql = "SELECT * FROM Compras"
 
         conexao.query(sql, (erro, resultados) => { 
             if(erro) {
@@ -39,6 +39,17 @@ class ComprasRepository {
         })
     }
 
+    deleta(id, res) {
+        const sql = 'DELETE FROM Compras WHERE id = ?'
+
+        conexao.query(sql, id, (erro, resultados) => {
+            if(erro) {
+                res.status(400).json(erro)
+            } else {
+                res.status(200).json({resultados})
+            }
+        })
+    }
 }
 
 module.exports = new ComprasRepository()
